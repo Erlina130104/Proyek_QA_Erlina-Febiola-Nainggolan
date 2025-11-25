@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "0fe3b2ef-4a98-4ec6-9b81-62ad785674a0",
+		"name": "Practice Software Testing - API",
+		"description": "StartFragmentAPI Testing for Practice Software Testing website  \nBase URL: [https://api.practicesoftwaretesting.com](https://api.practicesoftwaretesting.com)  \nTester: Erlina Febiola Nainggolan  \nDate: November 2025",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25518094",
+		"_collection_link": "https://crimson-moon-961040.postman.co/workspace/Team-Workspace~f2870159-9ddc-48d8-813f-2dbb57a88fe3/collection/25518094-0fe3b2ef-4a98-4ec6-9b81-62ad785674a0?action=share&source=collection_link&creator=25518094"
+	},
+	"item": [
+		{
+			"name": "TEST CASE 1 - LOGIN & GET TOKEN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Test 1: Status harus 200\r",
+							"pm.test(\"Login successful - Status 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test 2: Response time < 2 detik\r",
+							"pm.test(\"Response time acceptable\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+							"});\r",
+							"\r",
+							"// Test 3: Token ada di response\r",
+							"pm.test(\"Access token exists\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.access_token).to.exist;\r",
+							"});\r",
+							"\r",
+							"// Test 4: SIMPAN token ke environment (PENTING!)\r",
+							"pm.test(\"Save token to environment\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"token\", jsonData.access_token);\r",
+							"    console.log(\"Token saved:\", jsonData.access_token);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n     \"email\": \"erlinanainggolan130104@gmail.com\",\r\n     \"password\": \"Febi@1301\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEST CASE 2 - GET PRODUCTS_Test Search Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/products/search?q=hammer",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products",
+						"search"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "hammer"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEST CASE 2 - GET PRODUCTS_Test Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/products",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEST CASE 2 - GET PRODUCTS_Test Get Product by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/products/01KAT09VSMBJMGRCGXDB5G162N",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products",
+						"01KAT09VSMBJMGRCGXDB5G162N"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEST CASE 3 - ADD TO CART",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"product_id\": \"01KAT69VT4931G7FMZNZJTFF6R\",\r\n  \"quantity\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/carts",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"carts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TEST USER PROFILE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"       pm.response.to.have.status(200);\r",
+							"   });\r",
+							"   \r",
+							"   pm.test(\"User profile has email\", function () {\r",
+							"       var jsonData = pm.response.json();\r",
+							"       pm.expect(jsonData.email).to.eql(\"customer@practicesoftwaretesting.com\");\r",
+							"   });\r",
+							"   \r",
+							"   pm.test(\"User has required fields\", function () {\r",
+							"       var jsonData = pm.response.json();\r",
+							"       pm.expect(jsonData.first_name).to.exist;\r",
+							"       pm.expect(jsonData.last_name).to.exist;\r",
+							"   });"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/users/me",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login dengan Password Salah",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 401\", function () {\r",
+							"       pm.response.to.have.status(401);\r",
+							"   });\r",
+							"   \r",
+							"   pm.test(\"Error message exists\", function () {\r",
+							"       var jsonData = pm.response.json();\r",
+							"       pm.expect(jsonData.message).to.exist;\r",
+							"   });"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n     \"email\": \"erlinanainggolan130104@gmail.com\",\r\n     \"password\": \"Febi1301\"\r\n   }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/users/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product dengan ID Tidak Valid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"       pm.response.to.have.status(404);\r",
+							"   });"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/products/01KAT69VT4931G7FMZNZJTF",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"products",
+						"01KAT69VT4931G7FMZNZJTF"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
