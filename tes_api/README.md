@@ -147,6 +147,26 @@ FAIL: 1 (8%)
 1. **No Login Attempt Limit** - Bisa retry login unlimited
 2. **Weak Password Validation** - Password requirement tidak strict
 
+## Database Testing
+
+Folder ini juga berisi dokumentasi database testing dengan 10 test cases yang comprehensive.
+
+Untuk detail lengkap database testing, lihat file: `database_testing.md`
+
+**Database Test Cases Summary:**
+- DB-001: Verifikasi User Registration Data
+- DB-002: Verifikasi Password Security
+- DB-003: Verifikasi Add to Cart Data
+- DB-004: Deteksi Orphan Records di Cart Items (User)
+- DB-005: Deteksi Orphan Records di Cart Items (Product)
+- DB-006: Verifikasi Order Data Setelah Checkout
+- DB-007: Verifikasi Order Items Detail
+- DB-008: Deteksi Orphan Records di Order Items
+- DB-009: Verifikasi Unique Constraint pada Email
+- DB-010: Data Consistency - Total Price Verification
+
+**Total Database Test Cases:** 10 (READY FOR TESTING)
+
 ## Tools
 
 - Postman
